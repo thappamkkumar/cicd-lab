@@ -22,7 +22,10 @@ jobs:
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist
-
+      
+      - name: Generate application key
+        run: php artisan key:generate
+        
       - name: Run Tests
         run: php artisan test
         
