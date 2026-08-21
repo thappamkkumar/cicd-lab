@@ -5,6 +5,27 @@ on:
   pull_request:
 
 jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Check PHP
+        run: php -v
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run code style check
+        run: ./vendor/bin/pint --test
+
   test:
     runs-on: ubuntu-latest
 
@@ -29,14 +50,12 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
       
-      - name: Run Migrations
+      - name: Run migrations
         run: php artisan migrate --force
 
-      - name: Run Tests
+      - name: Run tests
         run: php artisan test
-        
-      - name: Run code style check
-        run: ./vendor/bin/pint --test
+         
 
 
       
