@@ -20,4 +20,8 @@ jobs:
       - name: Check PHP
         run: php -v
 
+      - name : Install dependencies
+        run: composer install --no-interaction --prefer-dist
+        
+
       
