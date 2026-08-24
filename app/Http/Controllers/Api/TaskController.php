@@ -11,6 +11,7 @@ class TaskController extends Controller
 {
     public function index(): JsonResponse
     {
+
         return response()->json(Task::latest()->get());
     }
 
@@ -50,7 +51,7 @@ class TaskController extends Controller
         $task->delete();
 
         return response()->json([
-            'message' => 'Task deleted successfully',
+            'message' => 'Task deleted successfully.',
         ]);
     }
 }
