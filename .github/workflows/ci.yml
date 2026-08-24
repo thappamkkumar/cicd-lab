@@ -76,5 +76,21 @@ jobs:
       - name: Report piplines status
         run: echo "Quality and tests have completed"
 
+  success-report:
+    runs-on: ubuntu-latest
+    needs: [quality, test]
+    if: ${{ success() }}
 
+    steps:
+      - name: Success report
+        run: echo "CI passed successfully"
+
+  failure-report:
+    runs-on: ubuntu-latest
+    needs: [quality, test]
+    if: ${{ failure() }}
+
+    steps:
+      - name: Failure report
+        run: echo "CI failed"
       
