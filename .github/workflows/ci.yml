@@ -47,6 +47,23 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: cicd_lab
+          MYSQL_USER: cicd
+          MYSQL_PASSWORD: secret
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
 
     steps:
       - name: Checkout code
@@ -77,6 +94,15 @@ jobs:
       
       - name: Create environment file
         run: cp .env.example .env
+
+      - name: Configure MySQL
+        run: |
+          sed -i 's/^DB_CONNECTION=sqlite/DB_CONNECTION=mysql/' .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_DATABASE=cicd_lab" >> .env
+          echo "DB_USERNAME=cicd" >> .env
+          echo "DB_PASSWORD=secret" >> .env
 
       - name: Generate application key
         run: php artisan key:generate
