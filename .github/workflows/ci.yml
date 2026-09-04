@@ -140,6 +140,10 @@ jobs:
     needs: [quality, test]
 
     steps:
+       
+      - name: Check quality result
+        run: echo "Quality result:- ${{ needs.quality.outputs.status }}"
+      
       - name: Create build output
         run: |
           mkdir build
