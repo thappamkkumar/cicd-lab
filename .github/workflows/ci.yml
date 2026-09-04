@@ -17,6 +17,8 @@ jobs:
   quality:
     runs-on: ubuntu-latest
 
+    outputs:
+      status: ${{ steps.quality-result.outputs.status }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
