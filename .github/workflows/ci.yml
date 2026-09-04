@@ -47,6 +47,15 @@ jobs:
       - name: Run code style check
         run: ./vendor/bin/pint --test
 
+      - name: Check GitHub token
+        run: |
+          if [ -n "${{ secrets.GITHUB_TOKEN }}" ]; then
+            echo "GITHUB_TOKEN is available"
+          else
+            echo "GITHUB_TOKEN is missing"
+            exit 1
+          fi
+
 
   test:
     runs-on: ubuntu-latest
